@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:dart_style/dart_style.dart';
-import 'package:pub_semver/pub_semver.dart';
 import 'dart_project.dart';
 
 // ignore_for_file: avoid_print
@@ -33,8 +32,9 @@ bool fixFile(DartFile dartFile) {
   return false;
 }
 
-final DartFormatter _dartFormatter =
-    DartFormatter(languageVersion: Version(3, 5, 0));
+final DartFormatter _dartFormatter = DartFormatter(
+  languageVersion: DartFormatter.latestLanguageVersion,
+);
 
 final String newLineChar = Platform.isWindows ? '\r\n' : '\n';
 
@@ -57,7 +57,8 @@ String _reorderImports(String content, CompilationUnit unit) {
       if (isFirst) {
         isFirst = false;
 
-        var token = directive.metadata.beginToken ??
+        var token =
+            directive.metadata.beginToken ??
             directive.firstTokenAfterCommentAndMetadata;
 
         offset = token.offset;
@@ -98,13 +99,18 @@ String _reorderImports(String content, CompilationUnit unit) {
     var result = '';
     for (var directive in directives) {
       var wholeDirective = wholeDirectives.firstWhere(
-          (wholeDirective) => wholeDirective.directive == directive);
-      var directiveString = content.substring(wholeDirective.countedOffset,
-          wholeDirective.countedOffset + wholeDirective.countedLength);
+        (wholeDirective) => wholeDirective.directive == directive,
+      );
+      var directiveString = content.substring(
+        wholeDirective.countedOffset,
+        wholeDirective.countedOffset + wholeDirective.countedLength,
+      );
 
       var normalizedDirective = directive.toString().replaceAll('"', "'");
-      directiveString =
-          directiveString.replaceAll(directive.toString(), normalizedDirective);
+      directiveString = directiveString.replaceAll(
+        directive.toString(),
+        normalizedDirective,
+      );
 
       result += directiveString;
     }
