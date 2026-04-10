@@ -1,5 +1,7 @@
 import 'dart:ui';
+
 import 'package:vector_math/vector_math_64.dart';
+
 import '../../l.dart';
 import '../../lottie_drawable.dart';
 import '../../lottie_property.dart';
@@ -22,9 +24,7 @@ import 'path_content.dart';
 class FillContent implements DrawingContent, KeyPathElementContent {
   final Path _path = Path();
   final BaseLayer layer;
-  @override
-  final String? name;
-  final bool _hidden;
+  final ShapeFill _fill;
   final List<PathContent> _paths = <PathContent>[];
   late final BaseKeyframeAnimation<Color, Color> _colorAnimation;
   late final BaseKeyframeAnimation<int, int> _opacityAnimation;
@@ -34,9 +34,10 @@ class FillContent implements DrawingContent, KeyPathElementContent {
   double _blurMaskFilterRadius = 0;
   DropShadowKeyframeAnimation? dropShadowAnimation;
 
-  FillContent(this.lottieDrawable, this.layer, ShapeFill fill)
-    : name = fill.name,
-      _hidden = fill.hidden {
+  @override
+  String? get name => _fill.name;
+
+  FillContent(this.lottieDrawable, this.layer, this._fill) {
     var blurEffect = layer.blurEffect;
     if (blurEffect != null) {
       _blurAnimation = blurEffect.blurriness.createAnimation()
@@ -52,16 +53,14 @@ class FillContent implements DrawingContent, KeyPathElementContent {
       );
     }
 
-    if (fill.color == null || fill.opacity == null) {
+    if (_fill.color == null || _fill.opacity == null) {
       return;
     }
 
-    _path.fillType = fill.fillType;
-
-    _colorAnimation = fill.color!.createAnimation();
+    _colorAnimation = _fill.color!.createAnimation();
     _colorAnimation.addUpdateListener(onValueChanged);
     layer.addAnimation(_colorAnimation);
-    _opacityAnimation = fill.opacity!.createAnimation();
+    _opacityAnimation = _fill.opacity!.createAnimation();
     _opacityAnimation.addUpdateListener(onValueChanged);
     layer.addAnimation(_opacityAnimation);
   }
@@ -82,7 +81,7 @@ class FillContent implements DrawingContent, KeyPathElementContent {
 
   @override
   void draw(Canvas canvas, Matrix4 parentMatrix, {required int parentAlpha}) {
-    if (_hidden) {
+    if (_fill.hidden) {
       return;
     }
     L.beginSection('FillContent#draw');
@@ -112,6 +111,7 @@ class FillContent implements DrawingContent, KeyPathElementContent {
     }
 
     _path.reset();
+    _path.fillType = _fill.fillType;
     for (var i = 0; i < _paths.length; i++) {
       _path.addPath(_paths[i].getPath(), Offset.zero);
     }
@@ -131,6 +131,7 @@ class FillContent implements DrawingContent, KeyPathElementContent {
   @override
   Rect getBounds(Matrix4 parentMatrix, {required bool applyParents}) {
     _path.reset();
+    _path.fillType = _fill.fillType;
     for (var i = 0; i < _paths.length; i++) {
       _path.addPath(
         _paths[i].getPath(),
