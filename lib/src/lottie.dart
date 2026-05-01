@@ -1,4 +1,3 @@
-import 'dart:io' as io;
 import 'dart:typed_data';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
@@ -34,10 +33,10 @@ class Lottie extends StatefulWidget {
     bool? addRepaintBoundary,
     this.filterQuality,
     this.renderCache,
-  })  : animate = animate ?? true,
-        reverse = reverse ?? false,
-        repeat = repeat ?? true,
-        addRepaintBoundary = addRepaintBoundary ?? true;
+  }) : animate = animate ?? true,
+       reverse = reverse ?? false,
+       repeat = repeat ?? true,
+       addRepaintBoundary = addRepaintBoundary ?? true;
 
   /// Creates a widget that displays an [LottieComposition] obtained from an [AssetBundle].
   static LottieBuilder asset(
@@ -66,38 +65,37 @@ class Lottie extends StatefulWidget {
     LottieDecoder? decoder,
     RenderCache? renderCache,
     bool? backgroundLoading,
-  }) =>
-      LottieBuilder.asset(
-        name,
-        controller: controller,
-        frameRate: frameRate,
-        animate: animate,
-        repeat: repeat,
-        reverse: reverse,
-        delegates: delegates,
-        options: options,
-        imageProviderFactory: imageProviderFactory,
-        onLoaded: onLoaded,
-        key: key,
-        bundle: bundle,
-        frameBuilder: frameBuilder,
-        errorBuilder: errorBuilder,
-        width: width,
-        height: height,
-        fit: fit,
-        alignment: alignment,
-        package: package,
-        addRepaintBoundary: addRepaintBoundary,
-        filterQuality: filterQuality,
-        onWarning: onWarning,
-        decoder: decoder,
-        renderCache: renderCache,
-        backgroundLoading: backgroundLoading,
-      );
+  }) => LottieBuilder.asset(
+    name,
+    controller: controller,
+    frameRate: frameRate,
+    animate: animate,
+    repeat: repeat,
+    reverse: reverse,
+    delegates: delegates,
+    options: options,
+    imageProviderFactory: imageProviderFactory,
+    onLoaded: onLoaded,
+    key: key,
+    bundle: bundle,
+    frameBuilder: frameBuilder,
+    errorBuilder: errorBuilder,
+    width: width,
+    height: height,
+    fit: fit,
+    alignment: alignment,
+    package: package,
+    addRepaintBoundary: addRepaintBoundary,
+    filterQuality: filterQuality,
+    onWarning: onWarning,
+    decoder: decoder,
+    renderCache: renderCache,
+    backgroundLoading: backgroundLoading,
+  );
 
   /// Creates a widget that displays an [LottieComposition] obtained from a [File].
   static LottieBuilder file(
-    io.File file, {
+    Object file, {
     Animation<double>? controller,
     FrameRate? frameRate,
     bool? animate,
@@ -120,32 +118,31 @@ class Lottie extends StatefulWidget {
     LottieDecoder? decoder,
     RenderCache? renderCache,
     bool? backgroundLoading,
-  }) =>
-      LottieBuilder.file(
-        file,
-        controller: controller,
-        frameRate: frameRate,
-        animate: animate,
-        repeat: repeat,
-        reverse: reverse,
-        delegates: delegates,
-        options: options,
-        imageProviderFactory: imageProviderFactory,
-        onLoaded: onLoaded,
-        key: key,
-        frameBuilder: frameBuilder,
-        errorBuilder: errorBuilder,
-        width: width,
-        height: height,
-        fit: fit,
-        alignment: alignment,
-        addRepaintBoundary: addRepaintBoundary,
-        filterQuality: filterQuality,
-        onWarning: onWarning,
-        decoder: decoder,
-        renderCache: renderCache,
-        backgroundLoading: backgroundLoading,
-      );
+  }) => LottieBuilder.file(
+    file,
+    controller: controller,
+    frameRate: frameRate,
+    animate: animate,
+    repeat: repeat,
+    reverse: reverse,
+    delegates: delegates,
+    options: options,
+    imageProviderFactory: imageProviderFactory,
+    onLoaded: onLoaded,
+    key: key,
+    frameBuilder: frameBuilder,
+    errorBuilder: errorBuilder,
+    width: width,
+    height: height,
+    fit: fit,
+    alignment: alignment,
+    addRepaintBoundary: addRepaintBoundary,
+    filterQuality: filterQuality,
+    onWarning: onWarning,
+    decoder: decoder,
+    renderCache: renderCache,
+    backgroundLoading: backgroundLoading,
+  );
 
   /// Creates a widget that displays an [LottieComposition] obtained from a [Uint8List].
   static LottieBuilder memory(
@@ -172,32 +169,31 @@ class Lottie extends StatefulWidget {
     LottieDecoder? decoder,
     RenderCache? renderCache,
     bool? backgroundLoading,
-  }) =>
-      LottieBuilder.memory(
-        bytes,
-        controller: controller,
-        frameRate: frameRate,
-        animate: animate,
-        repeat: repeat,
-        reverse: reverse,
-        delegates: delegates,
-        options: options,
-        imageProviderFactory: imageProviderFactory,
-        onLoaded: onLoaded,
-        key: key,
-        frameBuilder: frameBuilder,
-        errorBuilder: errorBuilder,
-        width: width,
-        height: height,
-        fit: fit,
-        alignment: alignment,
-        addRepaintBoundary: addRepaintBoundary,
-        filterQuality: filterQuality,
-        onWarning: onWarning,
-        decoder: decoder,
-        renderCache: renderCache,
-        backgroundLoading: backgroundLoading,
-      );
+  }) => LottieBuilder.memory(
+    bytes,
+    controller: controller,
+    frameRate: frameRate,
+    animate: animate,
+    repeat: repeat,
+    reverse: reverse,
+    delegates: delegates,
+    options: options,
+    imageProviderFactory: imageProviderFactory,
+    onLoaded: onLoaded,
+    key: key,
+    frameBuilder: frameBuilder,
+    errorBuilder: errorBuilder,
+    width: width,
+    height: height,
+    fit: fit,
+    alignment: alignment,
+    addRepaintBoundary: addRepaintBoundary,
+    filterQuality: filterQuality,
+    onWarning: onWarning,
+    decoder: decoder,
+    renderCache: renderCache,
+    backgroundLoading: backgroundLoading,
+  );
 
   /// Creates a widget that displays an [LottieComposition] obtained from the network.
   static LottieBuilder network(
@@ -226,34 +222,33 @@ class Lottie extends StatefulWidget {
     LottieDecoder? decoder,
     RenderCache? renderCache,
     bool? backgroundLoading,
-  }) =>
-      LottieBuilder.network(
-        url,
-        client: client,
-        headers: headers,
-        controller: controller,
-        frameRate: frameRate,
-        animate: animate,
-        repeat: repeat,
-        reverse: reverse,
-        delegates: delegates,
-        options: options,
-        imageProviderFactory: imageProviderFactory,
-        onLoaded: onLoaded,
-        key: key,
-        frameBuilder: frameBuilder,
-        errorBuilder: errorBuilder,
-        width: width,
-        height: height,
-        fit: fit,
-        alignment: alignment,
-        addRepaintBoundary: addRepaintBoundary,
-        filterQuality: filterQuality,
-        onWarning: onWarning,
-        decoder: decoder,
-        renderCache: renderCache,
-        backgroundLoading: backgroundLoading,
-      );
+  }) => LottieBuilder.network(
+    url,
+    client: client,
+    headers: headers,
+    controller: controller,
+    frameRate: frameRate,
+    animate: animate,
+    repeat: repeat,
+    reverse: reverse,
+    delegates: delegates,
+    options: options,
+    imageProviderFactory: imageProviderFactory,
+    onLoaded: onLoaded,
+    key: key,
+    frameBuilder: frameBuilder,
+    errorBuilder: errorBuilder,
+    width: width,
+    height: height,
+    fit: fit,
+    alignment: alignment,
+    addRepaintBoundary: addRepaintBoundary,
+    filterQuality: filterQuality,
+    onWarning: onWarning,
+    decoder: decoder,
+    renderCache: renderCache,
+    backgroundLoading: backgroundLoading,
+  );
 
   /// The Lottie composition to animate.
   /// It could be parsed asynchronously with `LottieComposition.fromBytes`.
@@ -399,8 +394,9 @@ class _LottieState extends State<Lottie> with TickerProviderStateMixin {
     super.initState();
 
     _autoAnimation = AnimationController(
-        vsync: this,
-        duration: widget.composition?.duration ?? const Duration(seconds: 1));
+      vsync: this,
+      duration: widget.composition?.duration ?? const Duration(seconds: 1),
+    );
     _updateAutoAnimation();
   }
 

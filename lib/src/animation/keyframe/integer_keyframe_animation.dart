@@ -7,25 +7,27 @@ class IntegerKeyframeAnimation extends KeyframeAnimation<int> {
 
   @override
   int getValue(Keyframe<int> keyframe, double keyframeProgress) {
-    if (keyframe.startValue == null || keyframe.endValue == null) {
+    if (keyframe.startValue == null) {
       throw Exception('Missing values for keyframe.');
     }
 
+    var endValue = keyframe.endValue ?? keyframe.startValue;
+
     if (valueCallback != null) {
       var value = valueCallback!.getValueInternal(
-          keyframe.startFrame,
-          keyframe.endFrame,
-          keyframe.startValue,
-          keyframe.endValue,
-          keyframeProgress,
-          getLinearCurrentKeyframeProgress(),
-          progress);
+        keyframe.startFrame,
+        keyframe.endFrame,
+        keyframe.startValue,
+        endValue,
+        keyframeProgress,
+        getLinearCurrentKeyframeProgress(),
+        progress,
+      );
       if (value != null) {
         return value;
       }
     }
 
-    return lerpDouble(keyframe.startValue, keyframe.endValue, keyframeProgress)!
-        .round();
+    return lerpDouble(keyframe.startValue, endValue, keyframeProgress)!.round();
   }
 }

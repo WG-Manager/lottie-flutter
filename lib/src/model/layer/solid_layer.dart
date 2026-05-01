@@ -16,14 +16,17 @@ class SolidLayer extends BaseLayer {
   BaseKeyframeAnimation<Color, Color?>? _colorAnimation;
 
   SolidLayer(LottieDrawable lottieDrawable, Layer layerModel)
-      : super(lottieDrawable, layerModel) {
+    : super(lottieDrawable, layerModel) {
     paint.color = layerModel.solidColor.withAlpha(0);
   }
 
   @override
-  void drawLayer(Canvas canvas, Matrix4 parentMatrix,
-      {required int parentAlpha}) {
-    var backgroundAlpha = layerModel.solidColor.alpha;
+  void drawLayer(
+    Canvas canvas,
+    Matrix4 parentMatrix, {
+    required int parentAlpha,
+  }) {
+    var backgroundAlpha = layerModel.solidColor.a;
     if (backgroundAlpha == 0) {
       return;
     }
@@ -31,11 +34,9 @@ class SolidLayer extends BaseLayer {
     paint.color = _colorAnimation?.value ?? layerModel.solidColor;
 
     var opacity = transform.opacity?.value ?? 100;
-    var alpha = (parentAlpha /
-            255.0 *
-            (backgroundAlpha / 255.0 * opacity / 100.0) *
-            255.0)
-        .round();
+    var alpha =
+        (parentAlpha / 255.0 * (backgroundAlpha * opacity / 100.0) * 255.0)
+            .round();
     paint.setAlpha(alpha);
 
     if (_colorFilterAnimation != null) {
@@ -63,8 +64,12 @@ class SolidLayer extends BaseLayer {
   @override
   Rect getBounds(Matrix4 parentMatrix, {required bool applyParents}) {
     super.getBounds(parentMatrix, applyParents: applyParents);
-    var rect = Rect.fromLTWH(0, 0, layerModel.solidWidth.toDouble(),
-        layerModel.solidHeight.toDouble());
+    var rect = Rect.fromLTWH(
+      0,
+      0,
+      layerModel.solidWidth.toDouble(),
+      layerModel.solidHeight.toDouble(),
+    );
     rect = boundsMatrix.mapRect(rect);
     return rect;
   }
@@ -77,7 +82,9 @@ class SolidLayer extends BaseLayer {
         _colorFilterAnimation = null;
       } else {
         _colorFilterAnimation = ValueCallbackKeyframeAnimation(
-            callback as LottieValueCallback<ColorFilter>, null);
+          callback as LottieValueCallback<ColorFilter>,
+          null,
+        );
       }
     } else if (property == LottieProperty.color) {
       if (callback == null) {
@@ -85,7 +92,9 @@ class SolidLayer extends BaseLayer {
         paint.color = layerModel.solidColor;
       } else {
         _colorAnimation = ValueCallbackKeyframeAnimation(
-            callback as LottieValueCallback<Color>, null);
+          callback as LottieValueCallback<Color>,
+          null,
+        );
       }
     }
   }

@@ -40,7 +40,9 @@ class CompositionParameters {
 class LottieComposition {
   static LottieComposition parseJsonBytes(List<int> bytes) {
     return LottieCompositionParser.parse(
-        LottieComposition._(), JsonReader.fromBytes(bytes));
+      LottieComposition._(),
+      JsonReader.fromBytes(bytes),
+    );
   }
 
   static Future<LottieComposition> fromByteData(
@@ -77,12 +79,13 @@ class LottieComposition {
       }
       jsonFile ??= archive.files.firstWhere((e) => e.name.endsWith('.json'));
 
-      var composition = parseJsonBytes(jsonFile.content as Uint8List);
+      var composition = parseJsonBytes(jsonFile.content);
 
       for (var image in composition.images.values) {
         var imagePath = p.posix.join(image.dirName, image.fileName);
         var found = archive.files.firstWhereOrNull(
-            (f) => f.name.toLowerCase() == imagePath.toLowerCase());
+          (f) => f.name.toLowerCase() == imagePath.toLowerCase(),
+        );
 
         ImageProvider? provider;
         if (imageProviderFactory != null) {
@@ -95,16 +98,21 @@ class LottieComposition {
 
         if (found != null) {
           image.loadedImage ??= await loadImage(
-              composition, image, MemoryImage(found.content as Uint8List));
+            composition,
+            image,
+            MemoryImage(found.content),
+          );
         }
       }
 
       for (var font in archive.files.where((f) => f.name.endsWith('.ttf'))) {
         var fileName = p.basenameWithoutExtension(font.name).toLowerCase();
-        var existingFont = composition.fonts.values
-            .firstWhereOrNull((f) => f.family.toLowerCase() == fileName);
-        composition._fontsToLoad.add(FontToLoad(font.content as Uint8List,
-            family: existingFont?.family));
+        var existingFont = composition.fonts.values.firstWhereOrNull(
+          (f) => f.family.toLowerCase() == fileName,
+        );
+        composition._fontsToLoad.add(
+          FontToLoad(font.content, family: existingFont?.family),
+        );
       }
       return composition;
     }
@@ -225,11 +233,14 @@ class LottieComposition {
     fps ??= frameRate.framesPerSecond;
     assert(!fps.isNaN && fps.isFinite && !fps.isNegative);
 
-    var totalFrameCount = seconds * fps;
+    var noOffsetDurationFrames = durationFrames + 0.01;
+    var totalFrameCount = (noOffsetDurationFrames / this.frameRate) * fps;
     var frameIndex = (totalFrameCount * progress).toInt();
     var roundedProgress = frameIndex / totalFrameCount;
-    assert(roundedProgress >= 0 && roundedProgress <= 1,
-        'Progress is $roundedProgress');
+    assert(
+      roundedProgress >= 0 && roundedProgress <= 1,
+      'Progress is $roundedProgress',
+    );
     return roundedProgress;
   }
 

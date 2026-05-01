@@ -3,6 +3,8 @@ import 'buffer.dart';
 import 'json_scope.dart';
 import 'json_utf8_reader.dart';
 
+// ignore_for_file: unintended_html_in_doc_comment
+
 /// Reads a JSON (<a href="http://www.ietf.org/rfc/rfc7159.txt">RFC 7159</a>)
 /// encoded value as a stream of tokens. This stream includes both literal
 /// values (strings, numbers, booleans, and nulls) as well as the begin and
@@ -286,7 +288,9 @@ class JsonReaderOptions {
 
   static JsonReaderOptions of(List<String> strings) {
     return JsonReaderOptions(
-        strings, strings.map((s) => utf8.encode('$s"')).toList());
+      strings,
+      strings.map((s) => utf8.encode('$s"')).toList(),
+    );
   }
 }
 
@@ -328,7 +332,7 @@ enum Token {
   /// The end of the JSON stream. This sentinel value is returned by {@link
   /// JsonReader#peek()} to signal that the JSON-encoded value has no more
   /// tokens.
-  endDocument
+  endDocument,
 }
 
 class JsonDataException implements Exception {
